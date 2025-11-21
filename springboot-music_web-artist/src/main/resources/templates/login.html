@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập</title>
+  <link rel="stylesheet" type="text/css" href="styles/login.css" />
+
+</head>
+<body>
+  <div class="all-form-login">
+    <h1>Đăng nhập</h1>
+    
+    <p th:if="${param.error != null}" style="color: yellow; text-align: center; margin-top: 10px;">Sai tài khoản hoặc mật khẩu</p>
+     <p th:if="${notification != null}" style="color: yellow; text-align: center; margin-top: 10px; word-wrap: break-word; max-width: 310px;" th:text="${notification}"></p>
+    
+    <form th:action="@{do-login}" method="post">
+	    <div class="input-div">
+	      <label>Email</label>
+	      <input type="email" name="username" required >
+	    </div>
+	
+	    <div class="input-div">
+	      <label>Mật khẩu</label>
+	      <input type="password" name="password" autocomplete="on" required>
+	    </div>
+	
+	    <label>
+	      <input type="checkbox" name="remember-me"> Nhớ mật khẩu
+	    </label>
+	
+	    <div class="button-div">
+	      <button>Đăng nhập</button>
+	    </div>
+	</form>
+    <div class="a-div">
+      <a th:href="@{/forgetPassword}">Quên mật khẩu</a>
+    </div>
+
+    <div class="a-div">
+      <a th:href="@{/changePassword}">Đổi mật khẩu</a>
+    </div>
+
+    <div class="a-div">
+      <a th:href="@{/register}">Đăng ký</a>
+    </div>
+
+    <div class="button-google-facebook">
+      <a th:href="@{/oauth2/authorization/google}"><button><span class="google"></span>Đăng nhập bằng Google</button></a>
+    </div>
+  
+  </div>
+</body>
+</html>

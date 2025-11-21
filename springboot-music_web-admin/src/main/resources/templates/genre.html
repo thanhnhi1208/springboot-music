@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{_fragments::head}"></head>
+
+<body id="page-top">
+
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="~{_fragments::sidebar}"></ul>
+		<!-- End Sidebar -->
+
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+
+				<!-- Topbar -->
+				<nav th:replace="~{_fragments::topbar}"></nav>
+				<!-- End Topbar -->
+
+				<div class="container-fluid">
+
+					<div class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-0 text-gray-800">Quản Lý Thể Loại</h1>
+						<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addGenreModal">
+						    <i class="fas fa-plus"></i> Thêm thể loại
+						</button>
+
+					</div>
+
+					<div class="card shadow mb-4">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead class="thead-light">
+										<tr>
+											<th>Tên thể loại</th>
+											<th style="width:250px;">Hành động</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="g : ${genres}">
+											<td th:text="${g.name}"></td>
+											<td>
+
+												<a href="#" class="btn btn-warning btn-sm edit-btn"
+												   th:data-id="${g.id}" th:data-name="${g.name}"
+												   data-toggle="modal" data-target="#editGenreModal">
+												   <i class="fas fa-edit"></i> Chỉnh sửa
+												</a>
+
+
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	
+	
+	<!-- Modal Add Genre -->
+	<div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <form th:action="@{/genre/add}" method="post" th:object="${genre}">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" id="addGenreModalLabel">Thêm Thể Loại</h5>
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                        <span aria-hidden="true">&times;</span>
+	                    </button>
+	                </div>
+
+	                <div class="modal-body">
+	                    <div class="form-group">
+	                        <label for="name">Tên thể loại</label>
+	                        <input type="text" class="form-control" id="name" name="name" required placeholder="Nhập tên thể loại">
+	                    </div>
+	                </div>
+
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+	                    <button type="submit" class="btn btn-primary">Lưu</button>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+
+
+	
+	<!-- Modal Edit Genre -->
+	<div class="modal fade" id="editGenreModal" tabindex="-1" role="dialog" aria-labelledby="editGenreModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <form th:action="@{/genre/update}" method="post">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" id="editGenreModalLabel">Chỉnh Sửa Thể Loại</h5>
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                        <span aria-hidden="true">&times;</span>
+	                    </button>
+	                </div>
+
+	                <div class="modal-body">
+	                    <input type="hidden" id="edit-id" name="id">
+
+	                    <div class="form-group">
+	                        <label for="edit-name">Tên thể loại</label>
+	                        <input type="text" class="form-control" id="edit-name" name="name" required>
+	                    </div>
+	                </div>
+
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+	                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+
+	<script>
+	    // Tự động đổ dữ liệu vào modal edit
+	    document.addEventListener("DOMContentLoaded", () => {
+	        document.querySelectorAll(".edit-btn").forEach(btn => {
+	            btn.addEventListener("click", function () {
+	                document.getElementById("edit-id").value = this.getAttribute("data-id");
+	                document.getElementById("edit-name").value = this.getAttribute("data-name");
+	            });
+	        });
+	    });
+	</script>
+
+	<div th:replace="~{_fragments::scrollToTop}"></div>
+		<div th:replace="~{_fragments::logoutModal}"></div>
+		<div th:replace="~{_fragments::js}"></div>
+
+</body>
+
+</html>
